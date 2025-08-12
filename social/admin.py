@@ -16,7 +16,7 @@ class AccountAdmin(admin.ModelAdmin):
 class MyUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ('موارد دیگر' ,{
-            "fields":('bio','phone','photo')
+            "fields":('bio','phone','photo',"birthday")
         }),
     )
     inlines = [AccountInline]
