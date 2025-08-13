@@ -1,0 +1,44 @@
+{% extends 'base/base_1.html' %}
+{% load static %}
+{% block head %}
+	<link rel="stylesheet" href="{% static "css/login_style.css" %}">
+{% endblock %}
+{% block title %}
+	ورود
+{% endblock %}
+{% block content %}
+
+<main class="container">
+    <div class="section_right">
+        <img src="{% static "images/blog.png" %}" alt="" class="image_main">
+    </div>
+    <div class="section_left">
+        <div class="login_section">
+            <div class="circle" id="circle1"></div>
+            <div class="circle" id="circle2"></div>
+            <div class="login_main">
+                <h1 class="title_welcome">خوش آمدید</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ next }}" name="next">
+                    <p>
+                        {% if error %}
+                            {{ error }}
+                        {% endif %}
+                    </p>
+                    <label for="telphone" class="text_label" >نام کاربری:</label>
+                    <input type="tel" id="telphone" name="username" placeholder="شماره تلفن یا ایمیل">
+
+                    <label for="pass" class="text_label">رمز عبور:</label>
+                    <input type="password" id = "pass" name="password" placeholder="رمز عبور">
+                    <a class="link" href="{% url 'social:main' %}">رمز عبور خود را فراموش کرده اید؟</a>
+
+                    <input type="submit" value="تایید" class="x">
+                    <p>حساب ندارید؟ <a class="link" href="{% url "social:register" %}">ثبت نام</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "form/styles/register.css" %}">
+    <title>ثبت نام</title>
+</head>
+<body>
+<!-- From Uiverse.io by marc_remus -->
+<div class="container_form">
+
+    <form class="form" method="post">
+        {% csrf_token %}
+      <p class="title">ثبت نام</p>
+      <p class="message">همین الان ثبت نام کن و مقاله خودت رو بساز</p>
+        <p>{{ form.username.errors }}</p>
+        <label>
+
+        <input required type="text" class="input" name="username" value="{% if form.username.value %} {{ form.username.value }}{% endif %}">
+        <span>نام کاربری</span>
+        </label>
+      <div class="flex">
+        <p>{{ form.first_name.errors }}</p>
+        <label>
+
+          <input required  type="text" class="input" name="first_name" value="{% if form.first_name.value %} {{ form.first_name.value }}{% endif %}" >
+          <span>نام</span>
+        </label>
+        <p>{{ form.last_name.errors }}</p>
+        <label>
+
+          <input required  type="text" class="input" name="last_name" value="{% if form.last_name.value %} {{ form.last_name.value }}{% endif %}">
+          <span>نام خانوادگی</span>
+        </label>
+      </div>
+        <p>{{ form.email.errors }}</p>
+      <label>
+
+        <input required type="email" class="input" name="email" value="{% if form.email.value %} {{ form.email.value }}{% endif %}">
+        <span>ایمیل</span>
+      </label>
+        <p>{{ form.password.errors }}</p>
+      <label>
+
+        <input required  type="password" class="input" name="password">
+        <span>رمز عبور</span>
+      </label>
+        <p>{{ form.password_repeat.errors }}</p>
+      <label>
+        <input required  type="password" class="input" name="password_repeat">
+        <span>تکرار رمز عبور</span>
+      </label>
+      <button class="submit">ارسال</button>
+      <p class="signin">آیا حساب دارید؟ <a href="{% url "blog:login" %}">وارد شوید</a></p>
+    </form>
+</div>
