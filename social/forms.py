@@ -23,3 +23,18 @@ class RegisterForm(forms.ModelForm):
         if User.objects.filter(phone=phone).exists() :
             raise forms.ValidationError("ایمیل از قبل وجود دارد")
         return email
+
+class TicketForm(forms.Form):
+
+    subjects = (
+        ("نظر", "نظر"),
+        ("انتقاد", "انتقاد"),
+        ("پیشنهاد", "پیشنهاد"),
+    )
+
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
+    message = forms.CharField(widget=forms.Textarea)
+    email = forms.EmailField()
+
+    subject = forms.ChoiceField(choices=subjects)

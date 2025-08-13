@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .forms import *
 
 # Create your views here.
 
@@ -24,3 +24,17 @@ def register(request):
         "form":form,
     }
     return render(request,"registration/register.html",context)
+
+def ticket(request):
+    if request.method == "POST":
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            for i in form.cleaned_data:
+                print(form.cleaned_data[i])
+    else:
+        form = TicketForm()
+
+    context = {
+        "form":form,
+    }
+    return render(request,"forms/ticket.html",context)
