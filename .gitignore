@@ -364,3 +364,4 @@ pyrightconfig.json
 
 fonts/
 images/
+.run/
