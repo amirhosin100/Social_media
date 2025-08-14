@@ -3,6 +3,7 @@ from .forms import *
 from django.core.mail import EmailMessage,send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth import login
+from django.contrib.auth.views import PasswordResetConfirmView
 # Create your views here.
 
 def main(request):
@@ -49,3 +50,11 @@ def ticket(request):
         "form":form,
     }
     return render(request,"forms/ticket.html",context)
+
+class MyConfirm(PasswordResetConfirmView):
+
+    def form_valid(self, form):
+        responese = super().form_valid(form)
+        user = form.save()
+        login(self.request,user,"django.contrib.auth.backends.ModelBackend")
+        return  responese
