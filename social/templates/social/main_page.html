@@ -3,5 +3,5 @@
 {% block title  %}Home{% endblock %}
 
 {% block content %}
-    <h1>سلام</h1>
+    <h1>سلام {% if user.is_authenticated %}{{ user.first_name }}{% endif %}</h1>
 {% endblock %}
