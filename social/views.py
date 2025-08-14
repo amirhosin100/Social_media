@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .forms import *
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage,send_mail
 from django.template.loader import render_to_string
+from django.contrib.auth import login
 # Create your views here.
 
 def main(request):
@@ -15,8 +16,8 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(cd["password"])
             user.save()
-            login(request, user)
-            return redirect("blog:profile")
+            login(request, user,"django.contrib.auth.backends.ModelBackend")
+            return redirect("social:main")
     else:
         form = RegisterForm()
 
@@ -38,7 +39,6 @@ def ticket(request):
                 "message": cd["message"],
             }
             message = render_to_string("email/send_ticket.html",context)
-
             email = EmailMessage(cd["subject"],message,"computer.super111@gmail.com",["amirhosinmirjamali123@gmail.com"])
             email.content_subtype = "html"
             email.send()

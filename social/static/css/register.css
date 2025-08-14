@@ -28,7 +28,7 @@ input:-internal-autofill-selected{
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 350px;
+  width: 350px;
   padding: 20px;
   border-radius: 20px;
   position: relative;
@@ -176,4 +176,6 @@ input[type="email"]{
   list-style-type: none;
   padding: 0;
   color: red;
+  margin-bottom: -20px;
+  margin-top: -20px;
 }

@@ -7,7 +7,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta :
         model = User
-        fields = ["first_name","last_name","username","phone"]
+        fields = ["username","phone","email"]
 
     def clean_password_repeat(self):
         cd = self.cleaned_data
@@ -18,9 +18,17 @@ class RegisterForm(forms.ModelForm):
 
     def clean_phone(self):
         phone = self.cleaned_data["phone"]
-        users = User.objects.all()
 
         if User.objects.filter(phone=phone).exists() :
+            raise forms.ValidationError("شماره تلفن از قبل وجود دارد")
+        if len(phone) != 11:
+            raise forms.ValidationError("شماره تلفن صحیح نمی باشد")
+        return phone
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+
+        if User.objects.filter(email=email).exists() :
             raise forms.ValidationError("ایمیل از قبل وجود دارد")
         return email
 
