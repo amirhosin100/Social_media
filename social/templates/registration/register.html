@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+{% extends 'base/base_1.html' %}
+
 {% load static %}
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "form/styles/register.css" %}">
-    <title>ثبت نام</title>
-</head>
-<body>
-<!-- From Uiverse.io by marc_remus -->
+{% block title %}
+	ثبت نام
+{% endblock %}
+{% block head %}
+	<link rel="stylesheet" href="{% static "css/register.css" %}">
+{% endblock %}
+
+{% block content %}
+	<!-- From Uiverse.io by marc_remus -->
 <div class="container_form">
 
     <form class="form" method="post">
@@ -53,6 +54,8 @@
         <span>تکرار رمز عبور</span>
       </label>
       <button class="submit">ارسال</button>
-      <p class="signin">آیا حساب دارید؟ <a href="{% url "blog:login" %}">وارد شوید</a></p>
+      <p class="signin">آیا حساب دارید؟ <a href="{% url "social:login" %}">وارد شوید</a></p>
     </form>
 </div>
+
+{% endblock %}
