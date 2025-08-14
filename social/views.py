@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import *
-
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 # Create your views here.
 
 def main(request):
@@ -14,7 +15,6 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(cd["password"])
             user.save()
-            AccountModel.objects.create(user=user)
             login(request, user)
             return redirect("blog:profile")
     else:
@@ -29,8 +29,19 @@ def ticket(request):
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
-            for i in form.cleaned_data:
-                print(form.cleaned_data[i])
+            cd = form.cleaned_data
+            context = {
+                "subject": cd["subject"],
+                "first_name": cd["first_name"],
+                "last_name": cd["last_name"],
+                "email": cd["email"],
+                "message": cd["message"],
+            }
+            message = render_to_string("email/send_ticket.html",context)
+
+            email = EmailMessage(cd["subject"],message,"computer.super111@gmail.com",["amirhosinmirjamali123@gmail.com"])
+            email.content_subtype = "html"
+            email.send()
     else:
         form = TicketForm()
 
