@@ -1,0 +1,14 @@
+{% extends "base/base_2.html" %}
+{% load static %}
+{% block title %}
+	پست ها
+{% endblock %}
+{% block head %}
+	<link rel="stylesheet">
+{% endblock %}
+{% block subcontent %}
+	{% for post in object_list %}
+		<p>{{ post.description }}</p>
+	{% endfor %}
+
+{% endblock %}

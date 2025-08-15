@@ -20,7 +20,7 @@ urlpatterns = [
     path("password-reset/done",auth_views.PasswordResetDoneView.as_view(),name="password_rest_done"),
     path("password-reset-confrim/<uidb64>/<token>",MyConfirm.as_view(success_url=reverse_lazy("social:main")),name="password_reset_confirm"),
 
-
+    path("posts/",views.PostListView.as_view(),name="posts"),
 
 
 ]

@@ -4,6 +4,9 @@ from django.core.mail import EmailMessage,send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth import login
 from django.contrib.auth.views import PasswordResetConfirmView
+from django.views.generic import ListView
+from .models import *
+
 # Create your views here.
 
 def main(request):
@@ -58,3 +61,8 @@ class MyConfirm(PasswordResetConfirmView):
         user = form.save()
         login(self.request,user,"django.contrib.auth.backends.ModelBackend")
         return  responese
+
+
+class PostListView(ListView):
+    queryset = Post.publish.all()
+    template_name = "social/post_list.html"

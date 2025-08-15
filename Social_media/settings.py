@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "django_jalali",
+    "taggit",
     "social.apps.SocialConfig",
     'django.contrib.admin',
     'django.contrib.auth',
