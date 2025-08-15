@@ -9,7 +9,9 @@
 	<link rel="stylesheet" href="{% static 'css/post_list.css' %}">
 {% endblock %}
 {% block subcontent %}
-
+    {%  if tag %}
+        <h2 class="filter">بر اساس تگ <span>{{ tag.name }}</span></h2>
+    {% endif %}
     <div class="feed">
         {% for post in posts %}
         <div class="post">
@@ -17,9 +19,10 @@
                 <img src="{% if post.author.photo %}{{ post.author.photo.url }}{% endif %}" alt="{{ post.author.username }}" class="avatar"/>
                 <span class="username">{{ post.author.first_name }} {{ post.author.last_name }}</span>
             </div>
-            <img src="{{ post.images.first.image.url }}" alt="post image"/>
+
             <a href="{{ post.get_absolute_url }}">
-               <div class="caption">{{ post.description }}</div>
+                <img src="{{ post.images.first.image.url }}" alt="post image" class="image_main">
+                <div class="caption">{{ post.description }}</div>
                 <div class="post-info">تاریخ: {{ post.update|jformat:"%d %B %Y"|fa }} • 120 پسند • 8 نظر</div>
             </a>
 

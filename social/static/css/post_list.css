@@ -5,6 +5,7 @@
     --text: #333;
     --muted: #666;
     --shadow: rgba(0, 0, 0, 0.1);
+    --orange1: #B07300;
 }
 
 
@@ -13,7 +14,7 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .post {
@@ -54,8 +55,8 @@
     color: var(--primary);
 }
 
-.post img {
-    object-fit: cover;
+.post .image_main {
+    width: 100%;
 }
 
 .caption {
@@ -69,6 +70,15 @@
     padding: 0 15px 15px;
     font-size: 12px;
     color: var(--muted);
+}
+.filter {
+    font-size: 20px;
+    text-align: center;
+
+}
+.filter span{
+    font-size: inherit;
+    color: var(--primary);
 }
 
 @media (max-width: 900px) {

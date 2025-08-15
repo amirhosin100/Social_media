@@ -79,6 +79,8 @@ class PostListView(ListView):
         return query
     def get_context_data(self, *args,**kwargs):
         tag = self.request.GET.get("tag", None)
+        if tag:
+            tag = get_object_or_404(Tag,slug=tag)
         context = super().get_context_data(**kwargs)
         context["tag"] = tag
         return context
