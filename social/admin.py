@@ -3,8 +3,12 @@ from django.contrib.auth.admin import UserAdmin
 from .models import *
 from taggit.admin import TaggedItemInline,TagAdmin
 from taggit.models import Tag
+
 # Register your models here.
 
+class ImagePostInline(admin.StackedInline):
+    model = ImagePost
+    extra = 0
 
 @admin.register(User)
 class MyUserAdmin(UserAdmin):
@@ -19,5 +23,10 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ["author","create","status"]
     list_editable = ["status"]
     ordering = ["-create"]
+    inlines = [ImagePostInline]
 
+@admin.register(ImagePost)
+class ImagePostAdmin(admin.ModelAdmin):
+    list_display = ["title"]
+    search_fields = ["title"]
 # edit tag
