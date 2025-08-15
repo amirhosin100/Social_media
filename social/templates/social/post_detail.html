@@ -88,7 +88,18 @@
             <p class="comment"><span class="name">sara.codes</span> چه ترکیب رنگ قشنگی!</p>
             <p class="comment"><span class="name">ali.ui</span> عالیه 👏</p>
         </div>
-        <div class="time">۲ ساعت پیش</div>
+        <div class="tags">
+            <h6>تگ ها</h6>
+            <div class="content">
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'social:posts' %}?tag={{ tag.slug }}">
+                        <span>{{ tag.name }}</span>
+                    </a>
+                {% endfor %}
+
+            </div>
+            
+        </div>
     </div>
 
     <!-- Add comment -->

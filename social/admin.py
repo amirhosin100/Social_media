@@ -20,7 +20,7 @@ class MyUserAdmin(UserAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ["author","create","status"]
+    list_display = ["author","description","create","status"]
     list_editable = ["status"]
     ordering = ["-create"]
     inlines = [ImagePostInline]

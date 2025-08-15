@@ -6,6 +6,8 @@
     --border: #e5e7eb;
     --accent: #ef4444; /* like */
     --blue: #3b82f6; /* link */
+    --orange1:rgb(176, 115, 0);
+    --orange2:rgb(255, 208, 121);
 }
 
 .post {
@@ -251,4 +253,25 @@
     .bookmark-toggle input:checked + svg .bookmark-fill {
         fill: #e5e7eb;
     }
+}
+
+.tags{
+    margin-top: 10px;
+}
+.tags h6{
+    font-size: 18px;
+    font-weight: 400;
+}
+.tags .content{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.tags .content span{
+    padding: 0px 10px ;
+    color: var(--orange1);
+    background-color: var(--orange2);
+    border-radius: 10px;
+    font-weight: bold;
 }
