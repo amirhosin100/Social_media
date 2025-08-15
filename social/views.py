@@ -4,8 +4,10 @@ from django.core.mail import EmailMessage,send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth import login
 from django.contrib.auth.views import PasswordResetConfirmView
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from .models import *
+from django.utils.text import slugify
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -64,5 +66,26 @@ class MyConfirm(PasswordResetConfirmView):
 
 
 class PostListView(ListView):
-    queryset = Post.publish.all()
+
     template_name = "social/post_list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        tag = self.request.GET.get("tag",None)
+        query = Post.publish.all()
+        if tag :
+            tag = get_object_or_404(Tag,slug=tag)
+            query = query.filter(tags__in=[tag])
+        return query
+    def get_context_data(self, *args,**kwargs):
+        tag = self.request.GET.get("tag", None)
+        context = super().get_context_data(**kwargs)
+        context["tag"] = tag
+        return context
+
+
+
+class PostDetail(DetailView):
+    context_object_name = "post"
+    queryset = Post.publish.all()
+    template_name = "social/post_detail.html"

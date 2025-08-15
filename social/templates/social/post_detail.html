@@ -1,0 +1,107 @@
+{% extends "base/base_2.html" %}
+{% load static %}
+{% load jformat %}
+{% load tags %}
+{% block title %}
+{{ post.description|truncatewords:20 }}
+{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/detail.css" %}">
+{% endblock %}
+{% block subcontent %}
+<article class="post" aria-label="پست">
+    <!-- Header -->
+    <header class="post-header">
+        <img class="avatar" src="{% if post.author.photo %}{{ post.author.photo.url }}{% endif %}" alt="{{ post.author.username }}"/>
+        <div class="user">
+            <span class="name">{{ post.author.first_name }}</span>
+            <span class="meta">{{ post.update|jformat:"%Y/%m/%d"|fa }}</span>
+        </div>
+        <button class="icon-btn dots" aria-label="بیشتر">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="5" cy="12" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="19" cy="12" r="2"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Media -->
+    <div class="post-media">
+        <img src="{{ post.images.first.image.url }}" alt="تصویر پست"/>
+    </div>
+
+    <!-- Actions -->
+    <div class="post-actions">
+        <div class="left">
+            <!-- Like (pure CSS toggle) -->
+            <label class="icon-btn like-toggle" aria-label="پسندیدن">
+                <input type="checkbox"/>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path class="heart-stroke"
+                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                          fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path class="heart-fill"
+                          d="M12.1 18.55l-6.36-6.36a3.99 3.99 0 0 1 5.64-5.64l.62.62.62-.62a3.99 3.99 0 1 1 5.64 5.64l-6.16 6.36z"
+                          fill="transparent"/>
+                </svg>
+            </label>
+
+            <!-- Comment -->
+            <button class="icon-btn" aria-label="نظر">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     aria-hidden="true">
+                    <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+                </svg>
+            </button>
+
+            <!-- Share -->
+            <button class="icon-btn" aria-label="اشتراک‌گذاری">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     aria-hidden="true">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <path d="M8.59 13.51l6.83 3.98M15.41 6.51 8.59 10.49"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Bookmark (pure CSS toggle) -->
+        <label class="icon-btn right bookmark-toggle" aria-label="ذخیره">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path class="bookmark-fill" d="M6 2h12a2 2 0 0 1 2 2v18l-8-4-8 4V4a2 2 0 0 1 2-2z" fill="transparent"
+                      stroke="currentColor" stroke-width="2"/>
+            </svg>
+        </label>
+    </div>
+
+    <!-- Body -->
+    <div class="post-body">
+        <div class="likes">۱٬۲۳۴ پسند</div>
+        <p class="caption">
+            <span class="name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
+            {{ post.description }}<span class="more">...بیشتر</span>
+        </p>
+        <div class="comments">
+            <a href="#" class="view-all">مشاهده‌ی همه‌ی ۶۴ نظر</a>
+            <p class="comment"><span class="name">sara.codes</span> چه ترکیب رنگ قشنگی!</p>
+            <p class="comment"><span class="name">ali.ui</span> عالیه 👏</p>
+        </div>
+        <div class="time">۲ ساعت پیش</div>
+    </div>
+
+    <!-- Add comment -->
+    <form class="add-comment" onsubmit="return false;">
+        <button class="icon-btn" aria-label="ایموجی">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 15s1.5 2 4 2 4-2 4-2"/>
+                <path d="M9 9h.01M15 9h.01"/>
+            </svg>
+        </button>
+        <input type="text" placeholder="افزودن نظر..." aria-label="افزودن نظر"/>
+        <button class="post-btn" disabled>ارسال</button>
+    </form>
+</article>
+{% endblock %}
