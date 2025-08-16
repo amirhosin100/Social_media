@@ -366,3 +366,5 @@ fonts/
 images/
 .run/
 test.html
+test.css
+test.js
