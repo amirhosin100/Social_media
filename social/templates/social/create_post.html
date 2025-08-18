@@ -1,13 +1,11 @@
 {% extends 'base/base_2.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}
     ایجاد پست
 {% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/create_post.css' %}">
-{% endblock %}
-{% block scripts %}
-    <script src="{% static "js/create_post.js" %}"></script>
 {% endblock %}
 {% block subcontent %}
 
@@ -34,14 +32,27 @@
                 </div>
                 <!-- کپشن -->
                 {{ form.description.errors }}
-                <textarea class="caption-input" placeholder="کپشن خود را بنویسید..." name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+                <textarea class="caption-input" placeholder="کپشن خود را بنویسید..."
+                          name="description">{% if form.description.value %}
+                    {{ form.description.value }}{% endif %}</textarea>
 
                 <!-- تگ‌ها -->
                 {{ form.tags.errors }}
                 <div class="tags-section">
                     <input type="text" id="tagInput" placeholder="تگ اضافه کنید و Enter بزنید">
-                    <div class="tags-list" id="tagsList"></div>
-                    <input type="hidden" name="tags" id="tagsHidden">
+                    <div class="tags-list" id="tagsList">
+                        {% if form.tags.value %}
+                            {% for tag in form.tags.value|split:"," %}
+                                <div class="tag">
+                                    {{ tag }}
+                                    <span onclick="removeTag({{ forloop.counter0 }})">×</span>
+                                </div>
+                            {% endfor %}
+
+                        {% endif %}
+                    </div>
+                    <input type="hidden" name="tags" id="tagsHidden"
+                           value="{% if form.tags.value %}{{ form.tags.value }}{% endif %}">
                 </div>
 
                 <!-- انتشار -->
@@ -50,5 +61,21 @@
 
         </div>
     </main>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/create_post.js" %}"></script>
+    <script>
+        {% if form.tags.value %}
+            {% for tag in form.tags.value|split:"," %}
+                tags.push("{{ tag }}");
+            {% endfor %}
+        {% endif %}
+        renderTags();
+        console.log(tags);
+        console.log("a");
+        console.log(tags);
+    </script>
 
 {% endblock %}

@@ -95,6 +95,7 @@ class PostDetail(DetailView):
 
 @login_required
 def create_post(request):
+    images = []
     if request.method == "POST":
         form = PostForm(request.POST,request.FILES)
         if form.is_valid():
@@ -108,7 +109,13 @@ def create_post(request):
             message = f"پست ({description}) با موفقیت ایجاد شد"
             messages.success(request,message)
             return redirect("social:main")
+        else:
+            images = request.FILES.getlist("images")
     else:
         form = PostForm()
 
-    return render(request,"social/create_post.html",{"form":form})
+    context = {
+        "form":form,
+        "images":images,
+    }
+    return render(request,"social/create_post.html",context)
