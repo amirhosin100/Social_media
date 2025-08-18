@@ -4,6 +4,7 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
 let images = [];
+
 let currentIndex = 0;
 
 imageUpload.addEventListener("change", (e) => {
@@ -41,7 +42,7 @@ const tagInput = document.getElementById("tagInput");
 const tagsList = document.getElementById("tagsList");
 const tagsHidden = document.getElementById("tagsHidden");
 
-let tags = [];
+var tags = [];
 
 tagInput.addEventListener("keypress", function (e) {
     if (e.key === "Enter" && this.value.trim() !== "") {

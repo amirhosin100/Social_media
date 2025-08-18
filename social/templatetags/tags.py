@@ -19,3 +19,7 @@ EN_TO_FA = {
 @register.filter(name="fa")
 def to_persian_numbers(value):
     return ''.join(EN_TO_FA.get(ch, ch) for ch in str(value))
+
+@register.filter(name="split")
+def split_text(list_obj:str,char):
+    return list_obj.split(char)
