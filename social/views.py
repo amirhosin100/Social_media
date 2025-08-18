@@ -9,6 +9,7 @@ from .models import *
 from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import  messages
 
 # Create your views here.
 
@@ -100,10 +101,13 @@ def create_post(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            print(form.cleaned_data["tags"])
             for image in request.FILES.getlist("images"):
                 ImagePost.objects.create(post=post,image=image)
             form.save_m2m()
+            description = form.cleaned_data["description"][:20]
+            message = f"پست ({description}) با موفقیت ایجاد شد"
+            messages.success(request,message)
+            return redirect("social:main")
     else:
         form = PostForm()
 

@@ -1,7 +1,13 @@
-{% extends "base/base_1.html" %}
+{% extends "base/base_2.html" %}
 
 {% block title  %}Home{% endblock %}
 
-{% block content %}
+{% block subcontent %}
+    {% if messages %}
+    	{% for message in messages %}
+    		<p>{{ message }}</p>
+    	{% endfor %}
+    {% endif %}
     <h1>سلام {% if user.is_authenticated %}{{ user.first_name }}{% endif %}</h1>
+
 {% endblock %}
