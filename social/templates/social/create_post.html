@@ -1,0 +1,54 @@
+{% extends 'base/base_2.html' %}
+{% load static %}
+{% block title %}
+    ایجاد پست
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/create_post.css' %}">
+{% endblock %}
+{% block scripts %}
+    <script src="{% static "js/create_post.js" %}"></script>
+{% endblock %}
+{% block subcontent %}
+
+    <main>
+        <div class="post-container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- نمایش تصاویر -->
+                <div class="image-slider">
+                    <button class="nav-btn left" id="prevBtn" type="button">&#10095;</button>
+                    <div class="image-frame">
+                        <img id="currentImage" src="" alt="انتخاب تصویر">
+                    </div>
+                    <button class="nav-btn right" id="nextBtn" type="button">&#10094;</button>
+                </div>
+
+                <!-- انتخاب تصاویر -->
+                {{ form.non_field_errors }}
+                <div class="upload-section">
+                    <label for="imageUpload" class="custom-file-upload">
+                        انتخاب تصاویر
+                    </label>
+                    <input type="file" id="imageUpload" multiple accept="image/*" name="images">
+                </div>
+                <!-- کپشن -->
+                {{ form.description.errors }}
+                <textarea class="caption-input" placeholder="کپشن خود را بنویسید..." name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+
+                <!-- تگ‌ها -->
+                {{ form.tags.errors }}
+                <div class="tags-section">
+                    <input type="text" id="tagInput" placeholder="تگ اضافه کنید و Enter بزنید">
+                    <div class="tags-list" id="tagsList"></div>
+                    <input type="hidden" name="tags" id="tagsHidden">
+                </div>
+
+                <!-- انتشار -->
+                <button class="submit-btn" type="submit">انتشار✨</button>
+            </form>
+
+        </div>
+    </main>
+
+{% endblock %}
