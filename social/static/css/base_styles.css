@@ -20,4 +20,12 @@ a{
 }
 input , textarea,button,select {
     font-family: inherit;
+    outline: none;
+}
+ul,ol{
+    list-style-type: none;
+    padding: 0;
+}
+.errorlist{
+    color: red;
 }

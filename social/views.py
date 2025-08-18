@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import *
 from django.core.mail import EmailMessage,send_mail
 from django.template.loader import render_to_string
@@ -8,6 +8,7 @@ from django.views.generic import ListView,DetailView
 from .models import *
 from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -86,8 +87,24 @@ class PostListView(ListView):
         return context
 
 
-
 class PostDetail(DetailView):
     context_object_name = "post"
     queryset = Post.publish.all()
     template_name = "social/post_detail.html"
+
+@login_required
+def create_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST,request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            print(form.cleaned_data["tags"])
+            for image in request.FILES.getlist("images"):
+                ImagePost.objects.create(post=post,image=image)
+            form.save_m2m()
+    else:
+        form = PostForm()
+
+    return render(request,"social/create_post.html",{"form":form})

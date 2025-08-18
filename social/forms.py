@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import *
 
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(max_length=30)
@@ -46,3 +46,26 @@ class TicketForm(forms.Form):
     email = forms.EmailField()
 
     subject = forms.ChoiceField(choices=subjects)
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["description","tags"]
+
+    def clean_tags(self):
+        tags = self.cleaned_data["tags"]
+        if len(tags) >= 7 :
+            raise forms.ValidationError("نمی توانید بیشتر از 7 تگ بگذارید")
+
+        return tags
+
+    def clean_description(self):
+        description = self.cleaned_data["description"]
+        if len(description) < 20 :
+            raise forms.ValidationError("حداقل بیشتر از 20 حرف وارد شود")
+        return description
+
+    def clean(self):
+        images = self.files.getlist("images")
+        if len(images) > 5 :
+            raise forms.ValidationError("نمی توانید بیشتر از 5 عکس وارد کنید")
