@@ -1,0 +1,43 @@
+{% extends 'base/base_2.html' %}
+{% load static %}
+{% load jformat %}
+{% load tags %}
+{% block title %}
+    جست و جو نتایج
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/search_page.css' %}">
+{% endblock %}
+{% block subcontent %}
+    <div class="search-results">
+        {% for post in result %}
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="{% if post.author.photo %}{{ post.author.photo.url }}{% endif %}"
+                         alt="{{ post.author.username }}" class="avatar">
+                    <span class="username">{{ post.author.first_name }} {{ post.author.last_name }}</span>
+                </div>
+                <a href="{{ post.get_absolute_url }}">
+                    <img src="{% if post.images.first %}{{ post.images.first.image.url }}{% endif %}"
+                         alt="{{ post.description|truncatewords:20 }}" class="post-image">
+                    <div class="post-actions">
+                        <div>
+                            <i class="fa-regular fa-heart"></i>
+                            <i class="fa-regular fa-comment"></i>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                        <i class="fa-regular fa-bookmark"></i>
+                    </div>
+                    <div class="post-likes">120 لایک</div>
+                    <div class="post-text"><span
+                            class="username">{{ post.author.username }}</span>{{ post.description }}</div>
+                    <div class="post-date">{{ post.update|jformat:"%d %B %Y"|fa }}</div>
+                </a>
+
+            </div>
+            {% empty %}
+            <h1 class="no-results">نتیجه ای یافت نشد</h1>
+        {% endfor %}
+
+    </div>
+{% endblock %}

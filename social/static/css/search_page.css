@@ -1,0 +1,106 @@
+.search-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin: 20px ;
+}
+
+.post-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    width: calc(25% - 15px); /* چهار پست در یک سطر */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.username {
+    font-weight: bold;
+    color: #ff6f00;
+}
+
+.post-image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.post-actions i {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.post-actions i:hover {
+    transform: scale(1.2);
+    color: #e65100;
+}
+
+.post-likes {
+    padding: 0 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+.post-text {
+    padding: 5px 10px 10px 10px;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.post-date {
+    padding: 0 10px 10px 10px;
+    font-size: 12px;
+    color: #999;
+}
+.no-results{
+    text-align: center;
+    margin: 20px;
+    width: 100%;
+}
+
+/* ریسپانسیو */
+@media (max-width: 1200px) {
+    .post-card {
+        width: calc(33.33% - 15px);
+    }
+}
+
+@media (max-width: 900px) {
+    .post-card {
+        width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 600px) {
+    .post-card {
+        width: 100%;
+    }
+}

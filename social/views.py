@@ -10,7 +10,8 @@ from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import  messages
-
+from django.db.models import Count
+from django.contrib.postgres.search import TrigramSimilarity
 # Create your views here.
 
 def main(request):
@@ -93,6 +94,16 @@ class PostDetail(DetailView):
     queryset = Post.publish.all()
     template_name = "social/post_detail.html"
 
+    def get_context_data(self, **kwargs):
+        post = get_object_or_404(Post,id=self.kwargs.get("pk"))
+        tags_id = post.tags.values_list("id",flat=True)
+        similar_post = Post.objects.filter(tags__in=tags_id).exclude(id=post.id)
+        similar_post = similar_post.annotate(same_tags=Count("tags")).order_by("same_tags")
+
+        context = super().get_context_data(**kwargs)
+        context["similar"] : similar_post
+        return context
+
 @login_required
 def create_post(request):
     images = []
@@ -119,3 +130,14 @@ def create_post(request):
         "images":images,
     }
     return render(request,"social/create_post.html",context)
+
+def search_post(request):
+    query = request.GET.get("query",'')
+    result = []
+    if query :
+        result = Post.publish.annotate(similarity=TrigramSimilarity("description",query))
+        result = result.filter(similarity__gt=0.1).order_by("-similarity")
+    context = {
+        "result":result,
+    }
+    return render(request,"social/search.html",context)
