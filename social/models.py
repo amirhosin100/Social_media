@@ -39,6 +39,7 @@ class Post(models.Model):
     update = jm.jDateTimeField(auto_now=True)
     status = models.CharField(choices=Status.choices,verbose_name="وضعیت",default=Status.PUBLISHED)
     tags = TaggableManager()
+    likes = models.ManyToManyField(User,related_name="liked_posts",blank=True,verbose_name="لایک ها")
 
     objects = jm.jManager()
     publish = PUBLISH()

@@ -24,6 +24,7 @@ urlpatterns = [
     path("posts/detail/<int:pk>",views.PostDetail.as_view(),name="detail"),
     path("create-post/",views.create_post,name="create_post"),
     path("search-posts/",views.search_post,name="search_post"),
+    path("like-post/",views.like_post,name="like_post"),
 
 
 ]

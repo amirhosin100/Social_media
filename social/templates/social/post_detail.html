@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="{% static "css/detail.css" %}">
 {% endblock %}
 {% block subcontent %}
-<article class="post" aria-label="پست">
+<article class="post" aria-label="پست" data-post-id="{{ post.id }}">
     <!-- Header -->
     <header class="post-header">
         <img class="avatar" src="{% if post.author.photo %}{{ post.author.photo.url }}{% endif %}" alt="{{ post.author.username }}"/>
@@ -35,8 +35,8 @@
     <div class="post-actions">
         <div class="left">
             <!-- Like (pure CSS toggle) -->
-            <label class="icon-btn like-toggle" aria-label="پسندیدن">
-                <input type="checkbox"/>
+            <label class="icon-btn like-toggle like" aria-label="پسندیدن">
+                <input type="checkbox" class="check" {% if request.user in post.likes.all %}checked{% endif %} >
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path class="heart-stroke"
                           d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
@@ -78,7 +78,7 @@
 
     <!-- Body -->
     <div class="post-body">
-        <div class="likes">۱٬۲۳۴ پسند</div>
+        <div class="likes"><span id="count-like">{{ post.likes.count|fa }}</span> لایک</div>
         <p class="caption">
             <span class="name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
             {{ post.description }}<span class="more">...بیشتر</span>
@@ -115,4 +115,33 @@
         <button class="post-btn" disabled>ارسال</button>
     </form>
 </article>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+	<script>
+        $(document).ready(function (){
+            $(".like").click(function (){
+                var post_id = $(this).closest(".post").data("post-id");
+                var like_container = $("#count-like");
+                var button = $(this).closest("input");
+                var csrf_token = "{{ csrf_token }}";
+
+                $.ajax({
+                    type:"POST",
+                    url : "{% url "social:like_post" %}",
+                    data : {"post_id":post_id,"csrfmiddlewaretoken":csrf_token},
+                    success :function (data) {
+                        like_container.text(data.like_count);
+                        if (data.like){
+                            button.attr("checked","");
+                        }
+                        else {
+                            button.removeAttr("checked");
+                        }
+                    },
+
+                });
+            });
+        });
+    </script>
 {% endblock %}

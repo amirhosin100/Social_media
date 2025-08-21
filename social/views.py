@@ -12,6 +12,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import  messages
 from django.db.models import Count
 from django.contrib.postgres.search import TrigramSimilarity
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from .templatetags.tags import to_persian_numbers
 # Create your views here.
 
 def main(request):
@@ -141,3 +144,28 @@ def search_post(request):
         "result":result,
     }
     return render(request,"social/search.html",context)
+
+@login_required
+@require_POST
+def like_post(request):
+    post_id = request.POST.get("post_id")
+    if post_id is not None :
+        post = Post.publish.get(id=post_id)
+        user = request.user
+        if user in post.likes.all():
+            post.likes.remove(user)
+            like = False
+        else:
+            post.likes.add(user)
+            like = True
+        post_like_count = to_persian_numbers(post.likes.count())
+        response_data = {
+            "like":like,
+            "like_count":post_like_count,
+        }
+
+    else:
+        response_data = {
+            "Error":"InValid Post ID",
+        }
+    return JsonResponse(response_data)
