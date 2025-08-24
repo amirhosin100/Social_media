@@ -25,7 +25,6 @@ class User(AbstractUser):
                               size=[500,500],crop=["middle","center"],quality=70)
 
 
-
 class Post(models.Model):
 
     class Status(models.TextChoices):
@@ -75,13 +74,36 @@ class ImagePost(models.Model):
         name = os.path.basename(self.image.name)
         return self.title if self.title else name[:20]
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post,related_name="comments",verbose_name="پست",on_delete=models.CASCADE)
+    author = models.ForeignKey(User,models.CASCADE,"comments",default=1,verbose_name="نویسنده")
+    message = models.TextField(max_length=1000,verbose_name="پیام")
+    create = jm.jDateTimeField(auto_now_add=True,verbose_name="تاریخ ایجاد")
+    update = jm.jDateTimeField(auto_now=True)
+    likes = models.ManyToManyField(User,"liked_comments",verbose_name="کاربرانی که لایک کرده اند",blank=True)
+    dislikes = models.ManyToManyField(User,"disliked_comments",verbose_name="کاربرانی که دیس لایک کرده اند",blank=True)
+
+    class Meta :
+        ordering = [
+            "-create"
+        ]
+        indexes = [
+            models.Index(fields=[
+                "-create"
+            ])
+        ]
+        verbose_name = "کامنت"
+        verbose_name_plural = "کامنت ها"
+
+    def __str__(self):
+        return self.message[:20]
+
+
 @receiver(pre_save,sender=Tag)
 def create_slug_for_tag(sender, instance, **kwargs):
     #Convert Persian name to Latin and create slug
     latin_name = unidecode(instance.name)
     instance.slug = slugify(latin_name)
-
-
 
 @receiver(post_delete,sender=ImagePost)
 def delete_image(sender,instance,**kwargs):

@@ -169,3 +169,46 @@ def like_post(request):
             "Error":"InValid Post ID",
         }
     return JsonResponse(response_data)
+
+@login_required
+@require_POST
+def like_or_dislike_comment(request):
+    comment_id = request.POST.get("comment_id")
+    comment = Comment.objects.get(id=comment_id)
+    subject = request.POST.get("subject")
+    user = request.user
+
+    like = False
+    dislike = False
+    if comment is not None :
+        if subject == "like":
+            if user in comment.dislikes.all() :
+                comment.dislikes.remove(user)
+            if user in comment.likes.all():
+                comment.likes.remove(user)
+            else:
+                comment.likes.add(user)
+                like = True
+        else:
+            if user in comment.likes.all() :
+                comment.likes.remove(user)
+            if user in comment.dislikes.all():
+                comment.dislikes.remove(user)
+            else:
+                comment.dislikes.add(user)
+                dislike = True
+        count_like = to_persian_numbers(comment.likes.count())
+        count_dislike = to_persian_numbers(comment.dislikes.count())
+
+        response = {
+            "like":like,
+            "dislike":dislike,
+            "count_like":count_like,
+            "count_dislike":count_dislike,
+        }
+    else:
+        response = {
+            "error":"Error"
+        }
+
+    return JsonResponse(response)

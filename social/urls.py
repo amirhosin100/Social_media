@@ -25,6 +25,7 @@ urlpatterns = [
     path("create-post/",views.create_post,name="create_post"),
     path("search-posts/",views.search_post,name="search_post"),
     path("like-post/",views.like_post,name="like_post"),
+    path("like-comment/",views.like_or_dislike_comment,name="like_comment"),
 
 
 ]

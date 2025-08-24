@@ -5,6 +5,9 @@ from taggit.admin import TaggedItemInline,TagAdmin
 from taggit.models import Tag
 
 # Register your models here.
+class CommentInline(admin.StackedInline):
+    model = Comment
+    extra = 1
 
 class ImagePostInline(admin.StackedInline):
     model = ImagePost
@@ -23,10 +26,14 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ["author","description","create","status"]
     list_editable = ["status"]
     ordering = ["-create"]
-    inlines = [ImagePostInline]
+    inlines = [ImagePostInline,CommentInline]
 
 @admin.register(ImagePost)
 class ImagePostAdmin(admin.ModelAdmin):
     list_display = ["title"]
     search_fields = ["title"]
-# edit tag
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["author","message","create"]
+
